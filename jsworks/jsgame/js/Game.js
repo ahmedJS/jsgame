@@ -3,8 +3,15 @@ import Input from "./Input.js"
 import Ball from "./Ball.js"
 import Brick from "./Brick.js";
 import { level1, level2 } from "./Levels.js";
+export const gameMode={
+    gameOver : 3,
+    gameMenuBar : 54,
+    gameWin : 100,
+    gamePause : 9,
+    gameOn : 0
+}
 
-export default class game {
+export class game {
     constructor(gameWidth, gameHeight, ctx) {
 
         this.ctx = ctx;
@@ -15,6 +22,7 @@ export default class game {
         this.start(level2, 1500);
 
     }
+
     start(levelMap, steppingDownSpeed) {
 
         let bricks = this.renderLevel(levelMap);
@@ -25,20 +33,30 @@ export default class game {
             bricks: bricks
         }
 
-        this.gameState = 1;
+        this.gameState = gameMode.gameOn;
 
         // set the main game objects into special property
         this.gamePaddle = this.gameObjects.paddle
         this.gameBall = this.gameObjects.ball
 
         //inputs activate
-        new Input(this.gameObjects["paddle"]);
+        new Input(this);
 
         // stepping down the bricks
         this.steppingDownBricks(this.gameObjects.bricks, steppingDownSpeed);
 
     }
 
+    gameToggle(){
+        this.gameState = ( this.gameState == gameMode.gamePause )
+        ? gameMode.gameOn : gameMode.gamePause;
+    }
+
+    gameOver()
+    {
+        // send message of gameover
+        return false;
+    }
     //step down the bricks every 3 seconds
     steppingDownBricks(bricks, time) {
         var stepping_down_bricks = setInterval(() => {
@@ -51,6 +69,15 @@ export default class game {
     }
 
     update() {
+
+        switch(this.gameState) {
+            case gameMode.gamePause : return ;
+            case gameMode.gameOver : ;
+            case gameMode.gameWin : ;
+            case gameMode.gameMenuBar : ;
+            case gameMode.gameOn : ;
+        }
+    
         this.ctx.clearRect(0, 0, this.gameWidth, this.gameHeight);
 
         for (var index in this.gameObjects) {

@@ -1,15 +1,17 @@
 export default class Input {
-    constructor(paddle) {
-
+    constructor(game) {
         document.addEventListener("keydown", function(event) {
             switch (event.keyCode) {
                 case 39:
                     //alert("moveright");
-                    paddle.moveRight();
+                    game.gamePaddle.moveRight();
                     break;
                 case 37:
                     //alert("moveleft")
-                    paddle.moveLeft();
+                    game.moveLeft();
+                    break;
+                case 32 :
+                    game.gameToggle();
                     break;
             }
         });
@@ -18,11 +20,11 @@ export default class Input {
             switch (event.keyCode) {
                 case 39:
                     //alert("moveright");
-                    paddle.stop();
+                    game.gamePaddle.stop();
                     break;
                 case 37:
                     //alert("moveleft")
-                    paddle.stop();
+                    game.gamePaddle.stop();
                     break;
             }
         });
